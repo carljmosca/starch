@@ -38,15 +38,25 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         if (value instanceof XMLGregorianCalendar) {
             label.setText(DateConverter.getDateAsString((XMLGregorianCalendar)value));
         }
-
+        if (copyColumnBackgroundColor >= 0) {
+            label.setBackground(table.getBackground());
+        }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
 
         // Since the renderer is a component, return itself
         return label;
     }
+
+    public int getCopyColumnBackgroundColor() {
+        return copyColumnBackgroundColor;
+    }
+
+    public void setCopyColumnBackgroundColor(int copyColumnBackgroundColor) {
+        this.copyColumnBackgroundColor = copyColumnBackgroundColor;
+    }
    
-    
+    private int copyColumnBackgroundColor;
     private JLabel label = new JLabel();
 
 }
