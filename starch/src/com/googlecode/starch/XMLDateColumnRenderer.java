@@ -6,6 +6,7 @@
 package com.googlecode.starch;
 
 import com.googlecode.starch.util.DateConverter;
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -38,9 +39,12 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         if (value instanceof XMLGregorianCalendar) {
             label.setText(DateConverter.getDateAsString((XMLGregorianCalendar)value));
         }
-        if (copyColumnBackgroundColor >= 0) {
-            label.setBackground(table.getBackground());
+        if ((rowIndex % 2) == 0) {
+            label.setBackground(firstBackgroundColor);
+        } else {
+            label.setBackground(secondBackgroundColor);
         }
+
         // Set tool tip if desired
         //label.setToolTipText((String) value);
 
@@ -48,15 +52,24 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         return label;
     }
 
-    public int getCopyColumnBackgroundColor() {
-        return copyColumnBackgroundColor;
+    public Color getFirstBackgroundColor() {
+        return firstBackgroundColor;
     }
 
-    public void setCopyColumnBackgroundColor(int copyColumnBackgroundColor) {
-        this.copyColumnBackgroundColor = copyColumnBackgroundColor;
+    public void setFirstBackgroundColor(Color firstBackgroundColor) {
+        this.firstBackgroundColor = firstBackgroundColor;
     }
-   
-    private int copyColumnBackgroundColor;
+
+    public Color getSecondBackgroundColor() {
+        return secondBackgroundColor;
+    }
+
+    public void setSecondBackgroundColor(Color secondBackgroundColor) {
+        this.secondBackgroundColor = secondBackgroundColor;
+    }
+    
+    private Color firstBackgroundColor;
+    private Color secondBackgroundColor;
     private JLabel label = new JLabel();
 
 }
