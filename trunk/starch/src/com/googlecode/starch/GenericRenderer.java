@@ -34,12 +34,14 @@ public class GenericRenderer implements TableCellRenderer {
         panel.setLayout(new BorderLayout());
         // Configure the component with the specified value
         if (value instanceof Boolean) {
-            JCheckBox checkBox = new JCheckBox();
-            checkBox.setSelected((Boolean)value);
+            checkBox.setText("");
+            checkBox.setSelected(((Boolean)value).booleanValue()) ;
             panel.add(checkBox, BorderLayout.CENTER);
+            checkBox.invalidate();
         } else {
             label.setText(value.toString());
             panel.add(label, BorderLayout.CENTER);
+            label.invalidate();
         }
         if (isSelected) {
             panel.setBackground(table.getSelectionBackground());
@@ -50,12 +52,10 @@ public class GenericRenderer implements TableCellRenderer {
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
-
-        // Since the renderer is a component, return itself
         return panel;
     }
     
     private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
-
+    private JCheckBox checkBox = new JCheckBox();
 }
