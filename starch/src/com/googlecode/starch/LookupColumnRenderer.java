@@ -42,6 +42,7 @@ public class LookupColumnRenderer implements TableCellRenderer {
             panel.setBackground(table.getSelectionBackground());
             label.setForeground(table.getSelectionForeground());
         } else {
+            panel.setBackground(table.getBackground());
             label.setForeground(table.getForeground());
         }
         // Set tool tip if desired
