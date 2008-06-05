@@ -5,10 +5,12 @@
 
 package com.googlecode.starch;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
@@ -26,10 +28,6 @@ public class LookupColumnRenderer implements TableCellRenderer {
         // 'value' is value contained in the cell located at
         // (rowIndex, vColIndex)
 
-        if (isSelected) {
-            // cell (and perhaps other cells) are selected
-        }
-
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
         }        
@@ -38,12 +36,19 @@ public class LookupColumnRenderer implements TableCellRenderer {
         if (value instanceof Integer) {
             label.setText(getDisplayValue((Integer)value));
         }
-
+        panel.setLayout(new BorderLayout());
+        panel.add(label, BorderLayout.CENTER);
+        if (isSelected) {
+            panel.setBackground(table.getSelectionBackground());
+            label.setForeground(table.getSelectionForeground());
+        } else {
+            label.setForeground(table.getForeground());
+        }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
 
         // Since the renderer is a component, return itself
-        return label;
+        return panel;
     }
     
     private String getDisplayValue(int lookupValue) {
@@ -61,6 +66,7 @@ public class LookupColumnRenderer implements TableCellRenderer {
         items.get(items.size() - 1).setDisplayValue(displayValue);
     }
     
+    private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
     private List<LookupColumnItem> items = new ArrayList<LookupColumnItem>(0);
 
