@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.googlecode.starch;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,15 +31,29 @@ public class GenericRenderer implements TableCellRenderer {
 
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
-        }        
+        }
 
         panel.setLayout(new BorderLayout());
         // Configure the component with the specified value
         if (value instanceof Boolean) {
+            panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             checkBox.setText("");
-            checkBox.setSelected(((Boolean)value).booleanValue()) ;
-            panel.add(checkBox, BorderLayout.CENTER);
+            checkBox.setSelected(((Boolean) value).booleanValue());
+            panel.add(checkBox);
             checkBox.invalidate();
+        } else if (value instanceof BigDecimal) {
+            NumberFormat numberFormat;
+            if (currencyFormat) {
+                numberFormat = NumberFormat.getCurrencyInstance();
+            } else if (percentFormat) {
+                numberFormat = NumberFormat.getPercentInstance();
+            } else {
+                numberFormat = NumberFormat.getInstance();
+                numberFormat.setMinimumFractionDigits(minimumFractionDigits);
+            }
+            label.setText(numberFormat.format(value));
+            panel.add(label, BorderLayout.EAST);
+            label.invalidate();
         } else {
             label.setText(value.toString());
             panel.add(label, BorderLayout.CENTER);
@@ -54,8 +70,35 @@ public class GenericRenderer implements TableCellRenderer {
         //label.setToolTipText((String) value);
         return panel;
     }
+
+    public boolean isCurrencyFormat() {
+        return currencyFormat;
+    }
+
+    public void setCurrencyFormat(boolean currencyFormat) {
+        this.currencyFormat = currencyFormat;
+    }
+
+    public boolean isPercentFormat() {
+        return percentFormat;
+    }
+
+    public void setPercentFormat(boolean percentFormat) {
+        this.percentFormat = percentFormat;
+    }
+
+    public int getMinimumFractionDigits() {
+        return minimumFractionDigits;
+    }
+
+    public void setMinimumFractionDigits(int minimumFractionDigits) {
+        this.minimumFractionDigits = minimumFractionDigits;
+    }
     
+    private int minimumFractionDigits = 2;
     private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
     private JCheckBox checkBox = new JCheckBox();
+    private boolean currencyFormat = false;
+    private boolean percentFormat = false;
 }
