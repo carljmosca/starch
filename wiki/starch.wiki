@@ -1,3 +1,3 @@
 = Why starch? =
 
-We had to call it something.  The words beans and binding has to bring something to mind besides making programming easier.  Shannon Hickey has done a technical session at JavaOne called [http://developers.sun.com/learning/javaoneonline/j1sessn.jsp?sessn=TS-6657&yr=2008&track=desktop  Beans Binding: Good for the Heart] and the PDF is a good introduction.
+We had to call it something.  The words beans and binding has to bring something to mind besides making programming easier.  Shannon Hickey has done a technical session at [http://developers.sun.com/learning/javaoneonline/index.jsp JavaOne] called [http://developers.sun.com/learning/javaoneonline/j1sessn.jsp?sessn=TS-6657&yr=2008&track=desktop  Beans Binding: Good for the Heart] and the PDF is a good introduction.
