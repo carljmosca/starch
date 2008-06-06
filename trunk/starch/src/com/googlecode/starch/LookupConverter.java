@@ -23,33 +23,24 @@ public class LookupConverter extends Converter {
         if (value == null) {
             return "";
         }
-        return getItemValue((Integer)value);
+        return getItem((Integer)value);
     }
 
     @Override
     public Object convertReverse(Object value) {
         if (value instanceof LookupItem) {
-            return ((LookupItem)value).getKey();
+            return (((LookupItem)value).getKey());
         }
         return null;
     }
     
-    private String getItemValue(int key) {
+    private LookupItem getItem(int key) {
         for (int i = 0; i < list.getList().size(); i++) {
             if (key == list.getList().get(i).getKey()) {
-                return list.getList().get(i).getValue();
+                return list.getList().get(i);
             }
         }
-        return "";
-    }
-    
-    private int getItemKey(String value) {
-        for (int i = 0; i < list.getList().size(); i++) {
-            if (value.equals(list.getList().get(i).getKey())) {
-                return list.getList().get(i).getKey();
-            }
-        }
-        return -1;
+        return null;
     }
 
     public LookupList getList() {
