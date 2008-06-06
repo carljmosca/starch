@@ -20,7 +20,7 @@ public class LookupConverter extends Converter {
 
     @Override
     public Object convertForward(Object value) {
-        if (value != null) {
+        if (value == null) {
             return "";
         }
         return getItemValue((Integer)value);
@@ -28,7 +28,10 @@ public class LookupConverter extends Converter {
 
     @Override
     public Object convertReverse(Object value) {
-        return ((LookupItem)value).getKey();
+        if (value instanceof LookupItem) {
+            return ((LookupItem)value).getKey();
+        }
+        return null;
     }
     
     private String getItemValue(int key) {
