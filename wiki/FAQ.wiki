@@ -1,2 +1,2 @@
 *Why can't I drag and drop a LookupConverter on my form?*
-I am really not sure about this.  It seems to me that there are limited places on the form where this converter can be dropped.  Try using the inspector panel instead.  Right click on the form or dialog and then select Add From Palette.  From there navigate to the starch components and select the LookupConverter.
+I am really not sure about this.  It seems to me that there are limited places on the form where this converter can be dropped but it's not easy.  Try using the inspector panel instead.  Right click on the form or dialog and then select Add From Palette.  From there navigate to the starch components and select the LookupConverter.
