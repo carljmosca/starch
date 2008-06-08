@@ -23,13 +23,21 @@ public class LookupConverter extends Converter {
         if (value == null) {
             return "";
         }
-        return getItem((Integer)value);
+        if (useAlphaKey) {
+            return getItemUsingAlphaKey((String)value);
+        } else {
+            return getItem((Integer)value);
+        }
     }
 
     @Override
     public Object convertReverse(Object value) {
         if (value instanceof LookupItem) {
-            return (((LookupItem)value).getKey());
+            if (useAlphaKey) {
+                return (((LookupItem)value).getAlphaKey());
+            } else {
+                return (((LookupItem)value).getKey());
+            }
         }
         return null;
     }
@@ -42,6 +50,15 @@ public class LookupConverter extends Converter {
         }
         return null;
     }
+    
+    private LookupItem getItemUsingAlphaKey(String alphaKey) {
+        for (int i = 0; i < list.getList().size(); i++) {
+            if (alphaKey.equals(list.getList().get(i).getAlphaKey())) {
+                return list.getList().get(i);
+            }
+        }
+        return null;        
+    }
 
     public LookupList getList() {
         return list;
@@ -50,6 +67,15 @@ public class LookupConverter extends Converter {
     public void setList(LookupList list) {
         this.list = list;
     }
+
+    public boolean isUseAlphaKey() {
+        return useAlphaKey;
+    }
+
+    public void setUseAlphaKey(boolean useAlphaKey) {
+        this.useAlphaKey = useAlphaKey;
+    } 
     
+    private boolean useAlphaKey = false;
     private LookupList list = new LookupList();
 }
