@@ -44,6 +44,16 @@ public class LookupItem implements Serializable {
         changeSupport.firePropertyChange("value", oldValue, value);
     }
 
+    public String getAlphaKey() {
+        return alphaKey;
+    }
+
+    public void setAlphaKey(String alphaKey) {
+        String oldAlphaKey = this.alphaKey;
+        this.alphaKey = alphaKey;
+        changeSupport.firePropertyChange("alphaKey", oldAlphaKey, alphaKey);
+    }
+
     @Override
     public String toString() {
         return getValue();
@@ -58,5 +68,6 @@ public class LookupItem implements Serializable {
     }
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private int key = 0;
+    private String alphaKey = "";
     private String value = "";
 }
