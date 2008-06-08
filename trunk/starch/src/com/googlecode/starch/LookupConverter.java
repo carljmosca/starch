@@ -68,6 +68,10 @@ public class LookupConverter extends Converter {
         this.list = list;
     }
 
+    public void addLookupItem(int key, String alphaKey, String value) {
+        list.getList().add(new LookupItem(key, alphaKey, value));
+    }
+    
     public boolean isUseAlphaKey() {
         return useAlphaKey;
     }
