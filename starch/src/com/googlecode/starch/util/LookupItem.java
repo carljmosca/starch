@@ -29,6 +29,13 @@ public class LookupItem implements Serializable {
         setAlphaKey(alphaKey);
         setValue(value);
     }
+    
+    public LookupItem(int key, String alphaKey, String value) {
+        this();
+        setKey(key);
+        setAlphaKey(alphaKey);
+        setValue(value);
+    }
 
     public int getKey() {
         return key;
