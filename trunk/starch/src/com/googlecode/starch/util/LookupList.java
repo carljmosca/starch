@@ -26,5 +26,9 @@ public class LookupList {
         this.list = list;
     }
     
+    public void addLookupItem(int key, String alphaKey, String value) {
+        list.add(new LookupItem(key, alphaKey, value));
+    }
+    
     private ObservableList<LookupItem> list = ObservableCollections.observableList(new ArrayList<LookupItem>(0));
 }
