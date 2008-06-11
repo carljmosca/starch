@@ -55,7 +55,11 @@ public class GenericRenderer implements TableCellRenderer {
             panel.add(label, BorderLayout.EAST);
             label.invalidate();
         } else {
-            label.setText(value.toString());
+            if (value == null) {
+                label.setText("");
+            } else {
+                label.setText(value.toString());
+            }
             panel.add(label, BorderLayout.CENTER);
             label.invalidate();
         }
