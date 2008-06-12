@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.googlecode.starch.util;
 
 import java.beans.PropertyChangeListener;
@@ -23,18 +22,23 @@ public class LookupItem implements Serializable {
         setKey(key);
         setValue(value);
     }
-    
+
     public LookupItem(String alphaKey, String value) {
         this();
         setAlphaKey(alphaKey);
         setValue(value);
     }
-    
+
     public LookupItem(int key, String alphaKey, String value) {
+        this(key, alphaKey, value, "");
+    }
+
+    public LookupItem(int key, String alphaKey, String value, String description) {
         this();
         setKey(key);
         setAlphaKey(alphaKey);
         setValue(value);
+        setDescription(description);
     }
 
     public int getKey() {
@@ -67,6 +71,16 @@ public class LookupItem implements Serializable {
         changeSupport.firePropertyChange("alphaKey", oldAlphaKey, alphaKey);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        String oldDescription = this.description;
+        this.description = description;
+        changeSupport.firePropertyChange("description", oldDescription, alphaKey);
+    }
+
     @Override
     public String toString() {
         return getValue();
@@ -83,4 +97,5 @@ public class LookupItem implements Serializable {
     private int key = 0;
     private String alphaKey = "";
     private String value = "";
+    private String description = "";
 }
