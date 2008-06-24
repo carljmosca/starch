@@ -51,6 +51,7 @@ public class GenericRenderer implements TableCellRenderer {
                 numberFormat = NumberFormat.getInstance();
                 numberFormat.setMinimumFractionDigits(minimumFractionDigits);
             }
+            numberFormat.setGroupingUsed(groupingUsed);
             label.setText(numberFormat.format(value));
             panel.add(label, BorderLayout.EAST);
             label.invalidate();
@@ -98,6 +99,14 @@ public class GenericRenderer implements TableCellRenderer {
     public void setMinimumFractionDigits(int minimumFractionDigits) {
         this.minimumFractionDigits = minimumFractionDigits;
     }
+
+    public boolean isGroupingUsed() {
+        return groupingUsed;
+    }
+
+    public void setGroupingUsed(boolean groupingUsed) {
+        this.groupingUsed = groupingUsed;
+    }
     
     private int minimumFractionDigits = 2;
     private JPanel panel = new JPanel();
@@ -105,4 +114,5 @@ public class GenericRenderer implements TableCellRenderer {
     private JCheckBox checkBox = new JCheckBox();
     private boolean currencyFormat = false;
     private boolean percentFormat = false;
+    private boolean groupingUsed = true;
 }
