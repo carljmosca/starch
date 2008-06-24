@@ -41,7 +41,8 @@ public class GenericRenderer implements TableCellRenderer {
             checkBox.setSelected(((Boolean) value).booleanValue());
             panel.add(checkBox);
             checkBox.invalidate();
-        } else if ((value instanceof BigDecimal) || (value instanceof Float)) {
+        } else if ((value instanceof BigDecimal) || (value instanceof Float) ||
+                (value instanceof Integer)) {
             NumberFormat numberFormat;
             if (currencyFormat) {
                 numberFormat = NumberFormat.getCurrencyInstance();
