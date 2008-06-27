@@ -19,7 +19,7 @@ public class BooleanConverter extends Converter {
     @Override
     public Object convertForward(Object value) {
         if (value == null) {
-            return false;
+            return falseValue;
         }
         if ((Boolean)value) {
            return trueValue; 
