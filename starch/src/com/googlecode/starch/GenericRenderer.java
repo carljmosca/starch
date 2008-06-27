@@ -6,7 +6,6 @@ package com.googlecode.starch;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import javax.swing.JCheckBox;
@@ -36,11 +35,18 @@ public class GenericRenderer implements TableCellRenderer {
         panel.setLayout(new BorderLayout());
         // Configure the component with the specified value
         if (value instanceof Boolean) {
-            panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            checkBox.setText("");
-            checkBox.setSelected(((Boolean) value).booleanValue());
-            panel.add(checkBox);
-            checkBox.invalidate();
+            if ((Boolean)value) {
+                label.setText("Yes");
+            } else {
+                label.setText("No");
+            }
+            panel.add(label, BorderLayout.EAST);
+            label.invalidate();
+//            panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+//            checkBox.setText("");
+//            checkBox.setSelected(((Boolean) value).booleanValue());
+//            panel.add(checkBox);
+//            checkBox.invalidate();
         } else if ((value instanceof BigDecimal) || (value instanceof Float) ||
                 (value instanceof Integer)) {
             NumberFormat numberFormat;
