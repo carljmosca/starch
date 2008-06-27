@@ -16,6 +16,7 @@ import org.jdesktop.observablecollections.ObservableList;
 public class LookupList {
 
     public LookupList() {
+        list.add(new LookupItem(0, ""));
     }
 
     public ObservableList<LookupItem> getList() {
