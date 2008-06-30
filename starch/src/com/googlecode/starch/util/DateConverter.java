@@ -135,10 +135,14 @@ public class DateConverter {
     }
 
     public static String getDateAsString(XMLGregorianCalendar value) {
+        return getDateAsString(value, "MM/dd/yyyy");
+    }
+
+    public static String getDateAsString(XMLGregorianCalendar value, String dateFormat) {
         if (isValueRepresentingNull(value)) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         return sdf.format(value.toGregorianCalendar().getTimeInMillis());
     }
 
