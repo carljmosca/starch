@@ -27,10 +27,8 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         // 'value' is value contained in the cell located at
         // (rowIndex, vColIndex)
 
-        if (hasFocus) {
-            // this cell is the anchor and the table has the focus
-   
-        }
+        panel.removeAll();
+
         // Configure the component with the specified value
         if (value instanceof XMLGregorianCalendar) {
             label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value));
@@ -53,4 +51,5 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
 
     private JLabel label = new JLabel();
     private JPanel panel = new JPanel();
+
 }
