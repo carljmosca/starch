@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.EventObject;
 import java.util.List;
 import javax.swing.JLabel;
@@ -33,12 +34,14 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
     public Component getTableCellEditorComponent(JTable table,
             Object value, boolean isSelected, int row, int column) {
         if ((value != null) && (value instanceof XMLGregorianCalendar)) {
-            datePicker.setDate(((XMLGregorianCalendar) value).toGregorianCalendar().getTime());
+            if (DateConverter.isValueRepresentingNull((XMLGregorianCalendar) value)) {
+                datePicker.setDate(Calendar.getInstance().getTime());
+            } else {
+                datePicker.setDate(((XMLGregorianCalendar) value).toGregorianCalendar().getTime());
+            }
             component = table.getCellRenderer(row, column).getTableCellRendererComponent(table, value, isSelected, false, row, column);
         }
         return datePicker;
-//        }
-//        return getTableCellRendererComponent(table, value, isSelected, false, row, column);
     }
 
     public void addCellEditorListener(CellEditorListener cellEditorListener) {
@@ -96,7 +99,7 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
         }
         // Configure the component with the specified value
         if (value instanceof XMLGregorianCalendar) {
-            label.setText(DateConverter.getDateAsString((XMLGregorianCalendar)value, dateFormatString));
+            label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value, dateFormatString));
             label.invalidate();
         }
         panel.setLayout(new BorderLayout());
