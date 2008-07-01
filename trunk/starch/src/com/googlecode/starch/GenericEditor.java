@@ -81,6 +81,7 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
+        panel.setVisible(true);
         return panel;
     }
 
@@ -105,6 +106,7 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
 
     public void cancelCellEditing() {
         textField.setVisible(false);
+        panel.setVisible(true);
         for (int i = 0; i < ceListeners.size(); i++) {
             ceListeners.get(i).editingCanceled(null);
         }
@@ -112,6 +114,7 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
 
     public boolean stopCellEditing() {
         textField.setVisible(false);
+        panel.setVisible(true);
         for (int i = 0; i < ceListeners.size(); i++) {
             ceListeners.get(i).editingStopped(null);
         }
@@ -125,6 +128,7 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
     }
 
     public boolean shouldSelectCell(EventObject eventObject) {
+        panel.setVisible(false);
         textField.setVisible(true);
         textField.selectAll();
         return true;
