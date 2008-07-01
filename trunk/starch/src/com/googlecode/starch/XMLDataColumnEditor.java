@@ -28,7 +28,6 @@ import org.jdesktop.swingx.JXDatePicker;
 public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
 
     public XMLDataColumnEditor() {
-        datePicker.setFormats(new SimpleDateFormat(dateFormatString));
     }
 
     public Component getTableCellEditorComponent(JTable table,
@@ -39,8 +38,9 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
             } else {
                 datePicker.setDate(((XMLGregorianCalendar) value).toGregorianCalendar().getTime());
             }
-            component = table.getCellRenderer(row, column).getTableCellRendererComponent(table, value, isSelected, false, row, column);
         }
+        this.table = table;
+        datePicker.setFormats(new SimpleDateFormat(dateFormatString));
         return datePicker;
     }
 
@@ -63,6 +63,10 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
         datePicker.setVisible(false);
         for (int i = 0; i < ceListeners.size(); i++) {
             ceListeners.get(i).editingStopped(null);
+        }
+        int column = table.getSelectedColumn();
+        if (column < (table.getColumnCount()) - 1) {
+            table.editCellAt(table.getSelectedRow(), column + 1);
         }
         return true;
     }
@@ -122,6 +126,5 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
     private JXDatePicker datePicker = new JXDatePicker();
     private List<CellEditorListener> ceListeners = new ArrayList<CellEditorListener>(0);
     private String dateFormatString = "MM/dd/yy";
-    private Component component = null;
-    private boolean editing = false;
+    private JTable table = null;
 }
