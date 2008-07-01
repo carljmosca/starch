@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -118,7 +117,6 @@ public class GenericRenderer implements TableCellRenderer {
     private int minimumFractionDigits = 2;
     private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
-    private JCheckBox checkBox = new JCheckBox();
     private boolean currencyFormat = false;
     private boolean percentFormat = false;
     private boolean groupingUsed = true;
