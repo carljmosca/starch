@@ -89,6 +89,9 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
         if ((value != null) && (value instanceof XMLGregorianCalendar)) {
         }
         this.table = table;
+        textField.setBackground(table.getSelectionBackground());
+        textField.setForeground(table.getSelectionForeground());
+        textField.setText((String)value);
         return textField;
     }
 
@@ -114,7 +117,7 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
         }
         if (propagateEditMode) {
             int column = table.getSelectedColumn();
-            if (column < (table.getColumnCount()) - 1) {
+            if (column < (table.getColumnCount())) {
                 table.editCellAt(table.getSelectedRow(), column + 1);
             }
         }
