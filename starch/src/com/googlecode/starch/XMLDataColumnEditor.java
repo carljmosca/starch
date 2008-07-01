@@ -40,6 +40,7 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
             }
         }
         this.table = table;
+        table.setSurrendersFocusOnKeystroke(true);
         datePicker.setFormats(new SimpleDateFormat(dateFormatString));
         return datePicker;
     }

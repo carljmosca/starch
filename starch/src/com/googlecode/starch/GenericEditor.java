@@ -87,6 +87,7 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
     public Component getTableCellEditorComponent(JTable table,
             Object value, boolean isSelected, int row, int column) {
         this.table = table;
+        table.setSurrendersFocusOnKeystroke(true);
         String stringValue = "";
         if (value instanceof String) {
             stringValue = (String) value;
