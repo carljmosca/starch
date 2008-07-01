@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -87,12 +86,22 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
 
     public Component getTableCellEditorComponent(JTable table,
             Object value, boolean isSelected, int row, int column) {
-        if ((value != null) && (value instanceof XMLGregorianCalendar)) {
-        }
         this.table = table;
-        textField.setBackground(table.getSelectionBackground());
-        textField.setForeground(table.getSelectionForeground());
-        textField.setText((String)value);
+        String stringValue = "";
+        if (value instanceof String) {
+            stringValue = (String) value;
+        } else if ((value instanceof BigDecimal) || (value instanceof Float) ||
+                (value instanceof Integer)) {
+            NumberFormat numberFormat;
+            numberFormat = NumberFormat.getInstance();
+            numberFormat.setMinimumFractionDigits(minimumFractionDigits);
+            numberFormat.setGroupingUsed(groupingUsed);
+            stringValue = numberFormat.format(value);
+        }
+        textField.setText(stringValue);
+        textField.selectAll();
+        textField.setVisible(true);
+        panel.setVisible(false);        
         return textField;
     }
 
