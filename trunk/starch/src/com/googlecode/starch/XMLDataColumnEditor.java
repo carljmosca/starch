@@ -64,9 +64,11 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
         for (int i = 0; i < ceListeners.size(); i++) {
             ceListeners.get(i).editingStopped(null);
         }
-        int column = table.getSelectedColumn();
-        if (column < (table.getColumnCount()) - 1) {
-            table.editCellAt(table.getSelectedRow(), column + 1);
+        if (propagateEditMode) {
+            int column = table.getSelectedColumn();
+            if (column < (table.getColumnCount()) - 1) {
+                table.editCellAt(table.getSelectedRow(), column + 1);
+            }
         }
         return true;
     }
@@ -90,6 +92,14 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
 
     public void setDateFormatString(String dateFormatString) {
         this.dateFormatString = dateFormatString;
+    }
+
+    public boolean isPropagateEditMode() {
+        return propagateEditMode;
+    }
+
+    public void setPropagateEditMode(boolean propagateEditMode) {
+        this.propagateEditMode = propagateEditMode;
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value,
@@ -127,4 +137,5 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
     private List<CellEditorListener> ceListeners = new ArrayList<CellEditorListener>(0);
     private String dateFormatString = "MM/dd/yy";
     private JTable table = null;
+    private boolean propagateEditMode = true;
 }

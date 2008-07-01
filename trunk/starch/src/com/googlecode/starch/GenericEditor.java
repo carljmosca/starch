@@ -112,9 +112,11 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
         for (int i = 0; i < ceListeners.size(); i++) {
             ceListeners.get(i).editingStopped(null);
         }
-        int column = table.getSelectedColumn();
-        if (column < (table.getColumnCount()) - 1) {
-            table.editCellAt(table.getSelectedRow(), column + 1);
+        if (propagateEditMode) {
+            int column = table.getSelectedColumn();
+            if (column < (table.getColumnCount()) - 1) {
+                table.editCellAt(table.getSelectedRow(), column + 1);
+            }
         }
         return true;
     }
@@ -164,7 +166,14 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
     public void setGroupingUsed(boolean groupingUsed) {
         this.groupingUsed = groupingUsed;
     }
-    
+
+    public boolean isPropagateEditMode() {
+        return propagateEditMode;
+    }
+
+    public void setPropagateEditMode(boolean propagateEditMode) {
+        this.propagateEditMode = propagateEditMode;
+    }
     private int minimumFractionDigits = 2;
     private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
@@ -174,4 +183,5 @@ public class GenericEditor implements TableCellEditor, TableCellRenderer {
     private JTextField textField = new JTextField();
     private List<CellEditorListener> ceListeners = new ArrayList<CellEditorListener>(0);
     private JTable table = null;
+    private boolean propagateEditMode = true;
 }
