@@ -66,7 +66,7 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
         }
         if (propagateEditMode) {
             int column = table.getSelectedColumn();
-            if (column < (table.getColumnCount()) - 1) {
+            if (column < (table.getColumnCount())) {
                 table.editCellAt(table.getSelectedRow(), column + 1);
             }
         }
