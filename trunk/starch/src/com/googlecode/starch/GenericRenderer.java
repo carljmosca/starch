@@ -41,24 +41,23 @@ public class GenericRenderer implements TableCellRenderer {
             }
             panel.add(label, BorderLayout.EAST);
             label.invalidate();
-//            panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-//            checkBox.setText("");
-//            checkBox.setSelected(((Boolean) value).booleanValue());
-//            panel.add(checkBox);
-//            checkBox.invalidate();
         } else if ((value instanceof BigDecimal) || (value instanceof Float) ||
                 (value instanceof Integer)) {
-            NumberFormat numberFormat;
-            if (currencyFormat) {
-                numberFormat = NumberFormat.getCurrencyInstance();
-            } else if (percentFormat) {
-                numberFormat = NumberFormat.getPercentInstance();
+            if (blankWhenZero && isZero(value)) {
+                label.setText("");
             } else {
-                numberFormat = NumberFormat.getInstance();
-                numberFormat.setMinimumFractionDigits(minimumFractionDigits);
+                NumberFormat numberFormat;
+                if (currencyFormat) {
+                    numberFormat = NumberFormat.getCurrencyInstance();
+                } else if (percentFormat) {
+                    numberFormat = NumberFormat.getPercentInstance();
+                } else {
+                    numberFormat = NumberFormat.getInstance();
+                    numberFormat.setMinimumFractionDigits(minimumFractionDigits);
+                }
+                numberFormat.setGroupingUsed(groupingUsed);
+                label.setText(numberFormat.format(value));
             }
-            numberFormat.setGroupingUsed(groupingUsed);
-            label.setText(numberFormat.format(value));
             panel.add(label, BorderLayout.EAST);
             label.invalidate();
         } else {
@@ -113,6 +112,27 @@ public class GenericRenderer implements TableCellRenderer {
     public void setGroupingUsed(boolean groupingUsed) {
         this.groupingUsed = groupingUsed;
     }
+
+    public boolean isBlankWhenZero() {
+        return blankWhenZero;
+    }
+
+    public void setBlankWhenZero(boolean blankWhenZero) {
+        this.blankWhenZero = blankWhenZero;
+    }
+    
+    private boolean isZero(Object value) {
+        if ((value instanceof BigDecimal) && (((BigDecimal)value).floatValue() == 0))  {
+            return true;
+        }
+        if ((value instanceof Float) && (((Float)value).floatValue() == 0))  {
+            return true;
+        }
+        if ((value instanceof Integer) && (((Integer)value).intValue() == 0))  {
+            return true;
+        }
+        return false;
+    }
     
     private int minimumFractionDigits = 2;
     private JPanel panel = new JPanel();
@@ -120,4 +140,5 @@ public class GenericRenderer implements TableCellRenderer {
     private boolean currencyFormat = false;
     private boolean percentFormat = false;
     private boolean groupingUsed = true;
+    private boolean blankWhenZero = false;
 }
