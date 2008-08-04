@@ -46,7 +46,11 @@ public class NumericConverter extends Converter {
     @Override
     public Object convertReverse(Object value) {
         if (((String) value).length() == 0) {
-            return 0;
+            if (minimumFractionDigits == 0) {
+                return new Integer(0);
+            } else {
+                return new Float(0);
+            }
         }
         switch (minimumFractionDigits) {
             case 0:
