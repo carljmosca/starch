@@ -42,37 +42,18 @@ public class NumericConverter extends Converter {
         }
         return value;
     }
-        
-    @Override
+    
     public Object convertReverse(Object value) {
-        if (((String) value).length() == 0) {
-            if (minimumFractionDigits == 0) {
-                return new Integer(0);
-            } else {
-                return new Float(0);
-            }
+        float f = 0;
+        try {
+            f = (value == null) || (((String)value).length() == 0) ? 0 : Float.parseFloat(normalizeString((String)value));
+        } catch (NumberFormatException ex) {
+            f = 0;
         }
-        switch (minimumFractionDigits) {
-            case 0:
-                int i = 0;
-                try {
-                    i = Integer.parseInt((String) value);
-                } catch (NumberFormatException nfe) {
-                    return i;
-                }
-                break;
-            default :
-                float f = 0;
-                try {
-                    f = Float.parseFloat((String) value);
-                } catch (NumberFormatException nfe) {
-                    return f;
-                }
-        }
-        return 0;
+        return new Float(f);
     }
 
-     boolean isBlankWhenZero() {
+    boolean isBlankWhenZero() {
         return blankWhenZero;
     }
 
@@ -125,9 +106,17 @@ public class NumericConverter extends Converter {
         return false;
     }
     
+    private String normalizeString(String value) {
+        
+        if ((value.length() > 0) && value.substring(0, 1).equalsIgnoreCase("$")) {
+            value = value.substring(1);
+        }
+        return value;
+    }
     private boolean blankWhenZero;
     private boolean groupingUsed = true;
     private int minimumFractionDigits = 2;
     private boolean currencyFormat = false;
     private boolean percentFormat = false;
+
 }
