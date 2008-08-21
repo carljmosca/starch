@@ -87,6 +87,7 @@ public class StarchDemoView extends FrameView {
         lookupList.getList().add(new LookupItem(1, "Red"));
         lookupList.getList().add(new LookupItem(2, "Green"));
         lookupList.getList().add(new LookupItem(3, "Blue"));
+        bindingValidator.setBindingGroup(bindingGroup);
     }
     
     @Action
@@ -120,6 +121,8 @@ public class StarchDemoView extends FrameView {
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -133,6 +136,9 @@ public class StarchDemoView extends FrameView {
         lookupList = new com.googlecode.starch.util.LookupList();
         lookupConverter = new com.googlecode.starch.LookupConverter();
         lookupItem = new com.googlecode.starch.util.LookupItem();
+        lookupValidator = new com.googlecode.starch.LookupValidator();
+        lookupColumnItem = new com.googlecode.starch.LookupColumnItem();
+        bindingValidator = new com.googlecode.starch.BindingValidator();
 
         mainPanel.setName("mainPanel"); // NOI18N
 
@@ -144,8 +150,11 @@ public class StarchDemoView extends FrameView {
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lookupList, eLProperty, cbLookup);
+        jComboBoxBinding.setValidator(lookupValidator);
         bindingGroup.addBinding(jComboBoxBinding);
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lookupItem, org.jdesktop.beansbinding.ELProperty.create("${key}"), cbLookup, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         binding.setConverter(lookupConverter);
         bindingGroup.addBinding(binding);
 
@@ -184,7 +193,15 @@ public class StarchDemoView extends FrameView {
         jLabel3.setName("jLabel3"); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cbLookup, org.jdesktop.beansbinding.ELProperty.create("${selectedItem.key} ${selectedItem.value}"), jLabel3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        jButton2.setAction(actionMap.get("resetComboBoxIndex")); // NOI18N
+        jButton2.setName("jButton2"); // NOI18N
+
+        jButton3.setAction(actionMap.get("testValidation")); // NOI18N
+        jButton3.setName("jButton3"); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,7 +210,12 @@ public class StarchDemoView extends FrameView {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addGap(124, 124, 124)
+                        .addComponent(jButton3))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -205,9 +227,9 @@ public class StarchDemoView extends FrameView {
                                 .addComponent(cbLookup, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(63, 63, 63)
+                                    .addGap(18, 18, 18)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +239,7 @@ public class StarchDemoView extends FrameView {
                     .addComponent(jLabel1)
                     .addComponent(cbLookup, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -225,7 +247,10 @@ public class StarchDemoView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -237,14 +262,14 @@ public class StarchDemoView extends FrameView {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -287,7 +312,7 @@ public class StarchDemoView extends FrameView {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 395, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 415, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -307,6 +332,9 @@ public class StarchDemoView extends FrameView {
 
         lookupConverter.setList(lookupList);
 
+        lookupValidator.setFieldName(resourceMap.getString("lookupValidator.fieldName")); // NOI18N
+        lookupValidator.setLookupList(lookupList);
+
         setComponent(mainPanel);
         setMenuBar(menuBar);
         setStatusBar(statusPanel);
@@ -319,9 +347,23 @@ public class StarchDemoView extends FrameView {
         lookupList.getList().add(new LookupItem());
     }
 
+    @Action
+    public void resetComboBoxIndex() {
+        lookupItem.setKey(-1);
+        //cbLookup.setSelectedIndex(-1);
+    }
+
+    @Action
+    public void testValidation() {
+        bindingValidator.doValidation(false);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.googlecode.starch.BindingValidator bindingValidator;
     private javax.swing.JComboBox cbLookup;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -330,9 +372,11 @@ public class StarchDemoView extends FrameView {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private com.googlecode.starch.LookupColumnItem lookupColumnItem;
     private com.googlecode.starch.LookupConverter lookupConverter;
     private com.googlecode.starch.util.LookupItem lookupItem;
     private com.googlecode.starch.util.LookupList lookupList;
+    private com.googlecode.starch.LookupValidator lookupValidator;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
