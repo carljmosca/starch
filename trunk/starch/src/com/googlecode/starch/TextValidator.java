@@ -40,7 +40,10 @@ public class TextValidator extends Validator {
                 }
                 if (numericCharactersOnly) {
                     try {
-                        Integer.parseInt((String)value);                        
+                        Integer intValue = new Integer(Integer.parseInt((String)value));
+                        if ((intValue.longValue() < minValue) || (intValue.longValue() > maxValue)) {
+                            return new Result(null, "Error: " + fieldName + " outside of allowable range");
+                        }
                     } catch (NumberFormatException nfe) {
                         return new Result(null, "Error: " + fieldName + " numeric characters only");
                     }
