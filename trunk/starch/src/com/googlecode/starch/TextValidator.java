@@ -6,6 +6,7 @@
 package com.googlecode.starch;
 
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.Validator;
 import org.jdesktop.beansbinding.Validator.Result;
 
@@ -36,6 +37,9 @@ public class TextValidator extends Validator {
         try {
             if (value instanceof String) {
                 if ((maxLength > 0) && (((String) value).length() > maxLength)) {
+                    if (autoValidate) {
+                        JOptionPane.showMessageDialog(null, "Warning: " + fieldName + " exceeds maximum length of " + maxLength);
+                    }
                     return new Result(null, "Error: " + fieldName + " exceeded maximum length");
                 }
                 if (numericCharactersOnly) {
@@ -54,7 +58,12 @@ public class TextValidator extends Validator {
                 return null;
             } else if (value instanceof Integer) {
                 int intValue = ((Integer) value).intValue();
-                if ((intValue < minValue) || (intValue > maxValue)) {
+                int len = ((Integer)value).toString().length();
+                if ((intValue < minValue) || (intValue > maxValue) || (len > maxLength)) {
+                    if (autoValidate) {
+                        JOptionPane.showMessageDialog(null, "Warning: " + fieldName + " must be in range of " + minValue + " to " + 
+                                maxValue + " and no longer than " + maxLength);
+                    }
                     return new Result(null, "Error: " + fieldName + " outside of allowable range");
                 }
                 return null;
@@ -113,6 +122,14 @@ public class TextValidator extends Validator {
     public void setNumericCharactersOnly(boolean numericCharactersOnly) {
         this.numericCharactersOnly = numericCharactersOnly;
     }
+
+    public boolean isAutoValidate() {
+        return autoValidate;
+    }
+
+    public void setAutoValidate(boolean autoValidate) {
+        this.autoValidate = autoValidate;
+    }
         
     private int maxLength;
     private int minValue;
@@ -120,4 +137,5 @@ public class TextValidator extends Validator {
     private boolean allowEmpty;
     private boolean numericCharactersOnly;
     private String fieldName = "";
+    private boolean autoValidate;
 }
