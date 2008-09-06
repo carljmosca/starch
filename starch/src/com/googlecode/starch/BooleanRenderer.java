@@ -29,8 +29,9 @@ public class BooleanRenderer implements TableCellRenderer {
 
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
-        }
-
+        }        
+        TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
+        Component comp = table.prepareRenderer(rend, rowIndex, vColIndex);
         panel.setLayout(new BorderLayout());
         // Configure the component with the specified value
         boolean booleanValue = false;
@@ -56,8 +57,8 @@ public class BooleanRenderer implements TableCellRenderer {
             panel.setBackground(table.getSelectionBackground());
             label.setForeground(table.getSelectionForeground());
         } else {
-            panel.setBackground(table.getBackground());
-            label.setForeground(table.getForeground());
+            panel.setBackground(comp.getBackground());
+            label.setForeground(comp.getForeground());
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
