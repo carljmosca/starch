@@ -38,12 +38,14 @@ public class LookupColumnRenderer implements TableCellRenderer {
         }
         panel.setLayout(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
+        TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
+        Component comp = table.prepareRenderer(rend, rowIndex, vColIndex);
         if (isSelected) {
             panel.setBackground(table.getSelectionBackground());
             label.setForeground(table.getSelectionForeground());
         } else {
-            panel.setBackground(table.getBackground());
-            label.setForeground(table.getForeground());
+            panel.setBackground(comp.getBackground());
+            label.setForeground(comp.getForeground());
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
