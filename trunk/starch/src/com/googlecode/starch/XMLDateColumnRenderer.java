@@ -34,16 +34,26 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
             label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value));
             label.invalidate();
         }
-        TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
-        Component comp = table.prepareRenderer(rend, rowIndex, vColIndex);
+        Component comp = null;
+        if (value != null) {
+            TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
+            if (rend != null) {
+                comp = table.prepareRenderer(rend, rowIndex, vColIndex);
+            }
+        }
         panel.setLayout(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
         if (isSelected) {
             panel.setBackground(table.getSelectionBackground());
             label.setForeground(table.getSelectionForeground());
         } else {
-            panel.setBackground(comp.getBackground());
-            label.setForeground(comp.getForeground());
+            if (comp != null) {
+                panel.setBackground(comp.getBackground());
+                label.setForeground(comp.getForeground());
+            } else {
+                panel.setBackground(table.getBackground());
+                label.setForeground(table.getForeground());                
+            }
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
