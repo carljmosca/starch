@@ -7,6 +7,7 @@ package com.googlecode.starch;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.lang.Boolean;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,13 +30,21 @@ public class BooleanRenderer implements TableCellRenderer {
 
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
-        }        
-        TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
-        Component comp = table.prepareRenderer(rend, rowIndex, vColIndex);
+        }
+        TableCellRenderer rend = null;
+        if (value == null) {
+            rend = table.getDefaultRenderer(Boolean.TYPE);
+        } else {
+            rend = table.getDefaultRenderer(value.getClass());
+        }
+        Component comp = null;
+        if (rend != null) {
+            comp = table.prepareRenderer(rend, rowIndex, vColIndex);
+        }
         panel.setLayout(new BorderLayout());
         // Configure the component with the specified value
         boolean booleanValue = false;
-        if (value instanceof Boolean) {
+        if ((value != null) && (value instanceof Boolean)) {
             booleanValue = (Boolean) value;
         }
         if (displayText) {
@@ -57,8 +66,13 @@ public class BooleanRenderer implements TableCellRenderer {
             panel.setBackground(table.getSelectionBackground());
             label.setForeground(table.getSelectionForeground());
         } else {
-            panel.setBackground(comp.getBackground());
-            label.setForeground(comp.getForeground());
+            if (comp != null) {
+                panel.setBackground(comp.getBackground());
+                label.setForeground(comp.getForeground());
+            } else {
+                panel.setBackground(table.getBackground());
+                label.setForeground(table.getForeground());                
+            }
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
