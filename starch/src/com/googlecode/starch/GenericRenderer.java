@@ -32,9 +32,14 @@ public class GenericRenderer implements TableCellRenderer {
         }
 
         panel.setLayout(new BorderLayout());
+        Component comp = null;
         // Configure the component with the specified value
-        TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
-        Component comp = table.prepareRenderer(rend, rowIndex, vColIndex);
+        if (value != null) {
+            TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
+            if (rend != null) {
+                comp = table.prepareRenderer(rend, rowIndex, vColIndex);
+            }
+        }
         if (value instanceof Boolean) {
             if ((Boolean)value) {
                 label.setText("Yes");
@@ -75,8 +80,13 @@ public class GenericRenderer implements TableCellRenderer {
             panel.setBackground(table.getSelectionBackground());
             label.setForeground(table.getSelectionForeground());
         } else {
-            panel.setBackground(comp.getBackground());
-            label.setForeground(comp.getForeground());
+            if (comp != null) {
+                panel.setBackground(comp.getBackground());
+                label.setForeground(comp.getForeground());
+            } else {
+                panel.setBackground(table.getBackground());
+                label.setForeground(table.getForeground());                
+            }
         }
         // Set tool tip if desired
         //label.setToolTipText((String) value);
