@@ -7,12 +7,14 @@ package com.googlecode.starch.ui;
 import com.googlecode.starch.util.LookupList;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleState;
 import javax.swing.Action;
 import javax.swing.JTextField;
 
@@ -23,38 +25,40 @@ import javax.swing.JTextField;
 public class STextField extends JTextField {
 
     public STextField() {
-        addEventListeners();
-    }
+        addFocusListener(new FocusListener() {
 
-    private void addEventListeners() {
-        this.setToolTipText("");
-        addFocusListener(new FocusAdapter() {
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                sTextField.updateText();
-            }
-        });
-        addKeyListener(new KeyListener() {
-
-            public void keyReleased(KeyEvent evt) {
+            public void focusGained(FocusEvent event) {
+                if (accessibleContext != null) {
+                    accessibleContext.firePropertyChange(
+                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                            null, AccessibleState.FOCUSED);
+                }
             }
 
-            public void keyPressed(KeyEvent evt) {
-                sTextField.updateToolTip(evt);
-            }
-
-            public void keyTyped(KeyEvent evt) {
+            public void focusLost(FocusEvent event) {
+                if (accessibleContext != null) {
+                    accessibleContext.firePropertyChange(
+                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                            AccessibleState.FOCUSED, null);
+                }
+                updateText();
             }
         });
     }
 
-    public void updateToolTip(KeyEvent evt) {
+    @Override
+    public void processKeyEvent(KeyEvent ev) {
+
+        char c = ev.getKeyChar();
+        super.processKeyEvent(ev);
+        if (Character.isLetter(c)) {
+            updateToolTip(ev);
+        }
+    }
+
+    private void updateToolTip(KeyEvent evt) {
         String s = "<html>";
         String text = getText();
-        if ((evt.getKeyCode() >= KeyEvent.VK_0) && (evt.getKeyCode() <= KeyEvent.VK_Z)) {
-            text += evt.getKeyChar();
-        }
         for (int i = 0; i < list.getList().size(); i++) {
             if ((list.getList().get(i).getValue().trim().length() > 0) &&
                     list.getList().get(i).getValue().startsWith(text)) {
@@ -76,7 +80,7 @@ public class STextField extends JTextField {
         }
     }
 
-    public void updateText() {
+    private void updateText() {
         String s = getText();
         for (int i = 0; i < list.getList().size(); i++) {
             if (list.getList().get(i).getValue().startsWith(s)) {
@@ -84,19 +88,20 @@ public class STextField extends JTextField {
                 setKey(list.getList().get(i).getKey());
                 break;
             }
-        }   
+        }
     }
 
-    public void updateTextByKey(int key) {
+    private void updateTextByKey(int key) {
         String s = getText();
         for (int i = 0; i < list.getList().size(); i++) {
             if (list.getList().get(i).getKey() == key) {
                 setText(list.getList().get(i).getValue());
+                setKey(list.getList().get(i).getKey());
                 break;
             }
-        }           
+        }
     }
-    
+
     public LookupList getList() {
         return list;
     }
@@ -113,19 +118,8 @@ public class STextField extends JTextField {
         int oldKey = key;
         this.key = key;
         updateTextByKey(key);
-        changeSupport.firePropertyChange("key", oldKey, key);
+        firePropertyChange("key", oldKey, key);
     }
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
-    }
-    private STextField sTextField = this;
     private int key = 0;
     private LookupList list = new LookupList();
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
