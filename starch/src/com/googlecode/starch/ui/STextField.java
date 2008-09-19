@@ -96,7 +96,6 @@ public class STextField extends JTextField {
         for (int i = 0; i < list.getList().size(); i++) {
             if (list.getList().get(i).getKey() == key) {
                 setText(list.getList().get(i).getValue());
-                setKey(list.getList().get(i).getKey());
                 break;
             }
         }
