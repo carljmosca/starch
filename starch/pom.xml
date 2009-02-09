@@ -17,6 +17,23 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.riedelcastro</groupId>
+                <artifactId>maven-gcupload-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <uploads>
+                        <upload>
+                            <extension>jar</extension>
+                        </upload>
+                        <upload>
+                            <postfix>src</postfix>
+                            <extensions>tar.gz,zip</extensions>
+                            <labels>Type-Source,Featured</labels>
+                        </upload>
+                    </uploads>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
