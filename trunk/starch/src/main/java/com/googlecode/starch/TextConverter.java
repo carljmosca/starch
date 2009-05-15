@@ -4,6 +4,8 @@
  */
 package com.googlecode.starch;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.text.SimpleDateFormat;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.jdesktop.beansbinding.Converter;
@@ -15,7 +17,6 @@ import org.jdesktop.beansbinding.Converter;
 public class TextConverter extends Converter {
 
     public TextConverter() {
-        sdf = new SimpleDateFormat(dateFormat);
     }
 
     @Override
@@ -27,6 +28,12 @@ public class TextConverter extends Converter {
         if (value instanceof String) {
             return getConvertedString((String) value);
         } else if (value instanceof XMLGregorianCalendar) {
+            SimpleDateFormat sdf;
+            try {
+                sdf = new SimpleDateFormat(getDateFormat());
+            } catch (IllegalArgumentException iao) {
+                sdf = new SimpleDateFormat("MM/dd/yyyy");
+            }
             return sdf.format(((XMLGregorianCalendar) value).toGregorianCalendar().getTime());
         }
         return value;
@@ -70,16 +77,25 @@ public class TextConverter extends Converter {
     }
 
     public String getDateFormat() {
-        return dateFormat;
+        return dateFormat.toString();
     }
 
     public void setDateFormat(String dateFormat) {
+        String oldDateFormat = this.dateFormat;
         this.dateFormat = dateFormat;
-        sdf = new SimpleDateFormat(dateFormat);
+        changeSupport.firePropertyChange("dateFormat", oldDateFormat, this.dateFormat);
     }
-    
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
+    }
+
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private boolean toUpper = false;
     private boolean toLower = false;
-    private SimpleDateFormat sdf;
     private String dateFormat = "MM/dd/yyyy";
 }
