@@ -28,7 +28,7 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         // (rowIndex, vColIndex)
 
         panel.removeAll();
-
+        label.setFont(table.getFont());
         // Configure the component with the specified value
         if (value instanceof XMLGregorianCalendar) {
             label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value));
@@ -52,7 +52,7 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
                 label.setForeground(comp.getForeground());
             } else {
                 panel.setBackground(table.getBackground());
-                label.setForeground(table.getForeground());                
+                label.setForeground(table.getForeground());
             }
         }
         // Set tool tip if desired
@@ -60,8 +60,6 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         // Since the renderer is a component, return itself
         return panel;
     }
-
     private JLabel label = new JLabel();
     private JPanel panel = new JPanel();
-
 }

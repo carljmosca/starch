@@ -31,7 +31,7 @@ public class LookupColumnRenderer implements TableCellRenderer {
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
         }        
-
+        label.setFont(table.getFont());
         // Configure the component with the specified value
         if (value instanceof Integer) {
             label.setText(getDisplayValue((Integer)value));
