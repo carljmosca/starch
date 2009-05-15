@@ -27,7 +27,7 @@ public class BooleanRenderer implements TableCellRenderer {
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
         // 'value' is value contained in the cell located at
         // (rowIndex, vColIndex)
-
+        label.setFont(table.getFont());
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
         }

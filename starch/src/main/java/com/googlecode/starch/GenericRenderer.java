@@ -32,6 +32,7 @@ public class GenericRenderer implements TableCellRenderer {
         }
 
         panel.setLayout(new BorderLayout());
+        label.setFont(table.getFont());
         Component comp = null;
         // Configure the component with the specified value
         if (value != null) {
