@@ -75,6 +75,7 @@ public class TextConverter extends Converter {
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+        sdf = new SimpleDateFormat(dateFormat);
     }
     
     private boolean toUpper = false;
