@@ -143,6 +143,7 @@ public class DateConverter {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        value.setTimezone(getTimeZoneOffset());
         return sdf.format(value.toGregorianCalendar().getTimeInMillis());
     }
 
@@ -152,6 +153,12 @@ public class DateConverter {
             sTimeZone = "America/New_York";
         }
         return TimeZone.getTimeZone(sTimeZone);
+    }
+
+    public static int getTimeZoneOffset() {
+        long ro = getTimeZone().getRawOffset() / 60000;
+        long ds = getTimeZone().getDSTSavings() / 60000;
+        return ((int)ro) + ((int)ds);
     }
     private static int DATE_REPRESENTING_NULL_YEAR = 1899;
     private static int DATE_REPRESENTING_NULL_MONTH = Calendar.JANUARY;
