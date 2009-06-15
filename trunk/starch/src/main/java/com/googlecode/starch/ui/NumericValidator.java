@@ -6,7 +6,6 @@ package com.googlecode.starch.ui;
 
 import java.io.Serializable;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JTextField;
 
 /**
@@ -48,10 +47,24 @@ public class NumericValidator extends AbstractValidator implements Serializable 
         this.allowBlank = allowBlank;
     }
 
+    public int getPrecision() {
+        return precision;
+    }
+
+    public void setPrecision(int precision) {
+        this.precision = precision;
+    }
+
     private boolean validate(String number) {
         try {
             if (allowDecimal) {
                 Float.parseFloat(number);
+                if ((precision > 0) && (number.indexOf(".") >= 0)) {
+                    if ((number.indexOf(".") + 1) < (number.length() - precision)) {
+                        setMessage("Only " + precision + " decimal places are allowed.");
+                        return false;
+                    }
+                }
             } else {
                 Integer.parseInt(number);
             }
@@ -63,4 +76,5 @@ public class NumericValidator extends AbstractValidator implements Serializable 
     }
     private boolean allowDecimal;
     private boolean allowBlank;
+    private int precision;
 }
