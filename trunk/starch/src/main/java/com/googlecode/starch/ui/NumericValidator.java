@@ -55,18 +55,50 @@ public class NumericValidator extends AbstractValidator implements Serializable 
         this.precision = precision;
     }
 
+    public boolean isNegativeOnly() {
+        return negativeOnly;
+    }
+
+    public void setNegativeOnly(boolean negativeOnly) {
+        this.negativeOnly = negativeOnly;
+    }
+
+    public boolean isPositiveOnly() {
+        return positiveOnly;
+    }
+
+    public void setPositiveOnly(boolean positiveOnly) {
+        this.positiveOnly = positiveOnly;
+    }
+
     private boolean validate(String number) {
         try {
             if (allowDecimal) {
-                Float.parseFloat(number);
+                float v = Float.parseFloat(number);
                 if ((precision > 0) && (number.indexOf(".") >= 0)) {
                     if ((number.indexOf(".") + 1) < (number.length() - precision)) {
                         setMessage("Only " + precision + " decimal places are allowed.");
                         return false;
                     }
                 }
+                if (positiveOnly && (v < 0.0)) {
+                    setMessage("Only positive numbers are allowed.");
+                    return false;
+                }
+                if (negativeOnly && (v > 0.0)) {
+                    setMessage("Only negative numbers are allowed.");
+                    return false;
+                }
             } else {
-                Integer.parseInt(number);
+                int v = Integer.parseInt(number);
+                if (positiveOnly && (v < 0)) {
+                    setMessage("Only positive numbers are allowed.");
+                    return false;
+                }
+                if (negativeOnly && (v > 0)) {
+                    setMessage("Only negative numbers are allowed.");
+                    return false;
+                }
             }
         } catch (NumberFormatException nfe) {
             setMessage("Field is numeric");
@@ -76,5 +108,7 @@ public class NumericValidator extends AbstractValidator implements Serializable 
     }
     private boolean allowDecimal;
     private boolean allowBlank;
+    private boolean positiveOnly;
+    private boolean negativeOnly;
     private int precision;
 }
