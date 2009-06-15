@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.googlecode.starch;
 
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.Validator;
@@ -44,7 +44,7 @@ public class TextValidator extends Validator {
                 }
                 if (numericCharactersOnly) {
                     try {
-                        Integer intValue = new Integer(Integer.parseInt((String)value));
+                        Integer intValue = new Integer(Integer.parseInt((String) value));
                         if ((intValue.longValue() < minValue) || (intValue.longValue() > maxValue)) {
                             return new Result(null, "Error: " + fieldName + " outside of allowable range");
                         }
@@ -58,11 +58,32 @@ public class TextValidator extends Validator {
                 return null;
             } else if (value instanceof Integer) {
                 int intValue = ((Integer) value).intValue();
-                int len = ((Integer)value).toString().length();
+                int len = ((Integer) value).toString().length();
                 if ((intValue < minValue) || (intValue > maxValue) || (len > maxLength)) {
                     if (autoValidate) {
-                        JOptionPane.showMessageDialog(null, "Warning: " + fieldName + " must be in range of " + minValue + " to " + 
+                        JOptionPane.showMessageDialog(null, "Warning: " + fieldName + " must be in range of " + minValue + " to " +
                                 maxValue + " and no longer than " + maxLength);
+                    }
+                    return new Result(null, "Error: " + fieldName + " outside of allowable range");
+                }
+                return null;
+            } else if (value instanceof BigDecimal) {
+                double v = ((BigDecimal) value).doubleValue();
+                String s = ((BigDecimal) value).toString();
+                if ((precision > 0) && (s.indexOf(".") >= 0)) {
+                    if ((s.indexOf(".") + 1) < (s.length() - precision)) {
+                        if (autoValidate) {
+                            JOptionPane.showMessageDialog(null, "Warning: " + fieldName + " must not contain more than " + precision +
+                                    " decimal places.");
+                        }
+                        return new Result(null, "Error: " + fieldName + " outside of allowable range");
+                    }
+                }
+                int len = s.length();
+                if ((v < minValue) || (v > maxValue) || (len > maxLength)) {
+                    if (autoValidate) {
+                        JOptionPane.showMessageDialog(null, "Warning: " + fieldName + " must be in range of " + minValue + " to " +
+                                maxValue + " and no longer than " + maxLength + " characters");
                     }
                     return new Result(null, "Error: " + fieldName + " outside of allowable range");
                 }
@@ -81,7 +102,6 @@ public class TextValidator extends Validator {
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
-
 
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
@@ -130,7 +150,14 @@ public class TextValidator extends Validator {
     public void setAutoValidate(boolean autoValidate) {
         this.autoValidate = autoValidate;
     }
-        
+
+    public int getPrecision() {
+        return precision;
+    }
+
+    public void setPrecision(int precision) {
+        this.precision = precision;
+    }
     private int maxLength;
     private int minValue;
     private int maxValue;
@@ -138,4 +165,5 @@ public class TextValidator extends Validator {
     private boolean numericCharactersOnly;
     private String fieldName = "";
     private boolean autoValidate;
+    private int precision;
 }
