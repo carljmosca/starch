@@ -52,6 +52,9 @@ public class TextValidator extends Validator {
                         return new Result(null, "Error: " + fieldName + " numeric characters only");
                     }
                 }
+                if ((!allowEmpty) && ((String)value).length() == 0) {
+                    return new Result(null, "Error: " + fieldName + " cannot be blank");
+                }
                 if (allowEmpty || ((String) value).length() > 0) {
                     return null;
                 }
