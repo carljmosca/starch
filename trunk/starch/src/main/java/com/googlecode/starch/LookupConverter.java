@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.googlecode.starch;
 
 import com.googlecode.starch.util.LookupItem;
@@ -21,12 +20,15 @@ public class LookupConverter extends Converter {
     @Override
     public Object convertForward(Object value) {
         if (value == null) {
-            return "";
+            if (list.getList().size() > 0) {
+                return list.getList().get(0);
+            }
+            return null;
         }
         if (useAlphaKey) {
-            return getItemUsingAlphaKey((String)value);
+            return getItemUsingAlphaKey((String) value);
         } else {
-            return getItem((Integer)value);
+            return getItem((Integer) value);
         }
     }
 
@@ -34,30 +36,36 @@ public class LookupConverter extends Converter {
     public Object convertReverse(Object value) {
         if (value instanceof LookupItem) {
             if (useAlphaKey) {
-                return (((LookupItem)value).getAlphaKey());
+                return (((LookupItem) value).getAlphaKey());
             } else {
-                return (((LookupItem)value).getKey());
+                return (((LookupItem) value).getKey());
             }
         }
         return null;
     }
-    
+
     private LookupItem getItem(int key) {
         for (int i = 0; i < list.getList().size(); i++) {
             if (key == list.getList().get(i).getKey()) {
                 return list.getList().get(i);
             }
         }
+        if (list.getList().size() > 0) {
+            return list.getList().get(0);
+        }
         return null;
     }
-    
+
     private LookupItem getItemUsingAlphaKey(String alphaKey) {
         for (int i = 0; i < list.getList().size(); i++) {
             if (alphaKey.equals(list.getList().get(i).getAlphaKey())) {
                 return list.getList().get(i);
             }
         }
-        return null;        
+        if (list.getList().size() > 0) {
+            return list.getList().get(0);
+        }
+        return null;
     }
 
     public LookupList getList() {
@@ -74,8 +82,7 @@ public class LookupConverter extends Converter {
 
     public void setUseAlphaKey(boolean useAlphaKey) {
         this.useAlphaKey = useAlphaKey;
-    } 
-    
+    }
     private boolean useAlphaKey = false;
     private LookupList list = new LookupList();
 }
