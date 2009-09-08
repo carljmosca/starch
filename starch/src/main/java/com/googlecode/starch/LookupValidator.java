@@ -4,6 +4,7 @@
  */
 package com.googlecode.starch;
 
+import com.googlecode.starch.util.LookupItem;
 import com.googlecode.starch.util.LookupList;
 import java.util.logging.Logger;
 import org.jdesktop.beansbinding.Validator;
@@ -28,10 +29,12 @@ public class LookupValidator extends Validator {
                 // which adds a "null" element which is indexed with the value of 0
                 // therefore we are testing for a value between 1 and the size of the list
                 // instead of 0
-                if ((intValue < 1) || (intValue > lookupList.getList().size())) {
-                    return new Result(null, "A value must be selected for " + fieldName);
+                for (LookupItem item : lookupList.getList()) {
+                    if ((intValue > 0) && (item.getKey() == intValue)) {
+                        return null;
+                    }
                 }
-                return null;
+                return new Result(null, "A value must be selected for " + fieldName);
             }
         } catch (Exception e) {
             logger.fine(e.getMessage());
