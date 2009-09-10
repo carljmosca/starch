@@ -30,7 +30,7 @@ public class LookupValidator extends Validator {
                 // therefore we are testing for a value between 1 and the size of the list
                 // instead of 0
                 for (LookupItem item : lookupList.getList()) {
-                    if ((intValue > 0) && (item.getKey() == intValue)) {
+                    if (intValue > 0) {
                         return null;
                     }
                 }
