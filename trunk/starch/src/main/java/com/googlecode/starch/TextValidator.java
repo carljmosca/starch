@@ -42,6 +42,9 @@ public class TextValidator extends Validator {
                     }
                     return new Result(null, "Error: " + fieldName + " exceeded maximum length");
                 }
+                if (allowEmpty && ((String) value).length() == 0) {
+                    return null;
+                }
                 if (numericCharactersOnly) {
                     try {
                         Integer intValue = new Integer(Integer.parseInt((String) value));
@@ -54,9 +57,6 @@ public class TextValidator extends Validator {
                 }
                 if ((!allowEmpty) && ((String)value).length() == 0) {
                     return new Result(null, "Error: " + fieldName + " cannot be blank");
-                }
-                if (allowEmpty || ((String) value).length() > 0) {
-                    return null;
                 }
                 return null;
             } else if (value instanceof Integer) {
