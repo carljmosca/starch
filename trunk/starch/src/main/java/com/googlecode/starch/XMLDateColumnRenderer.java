@@ -7,6 +7,7 @@ package com.googlecode.starch;
 import com.googlecode.starch.util.DateConverter;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Calendar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -32,6 +33,9 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         // Configure the component with the specified value
         if (value instanceof XMLGregorianCalendar) {
             label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value));
+            label.invalidate();
+        } else if (value instanceof Calendar) {
+            label.setText(DateConverter.getDateAsString((Calendar)value));
             label.invalidate();
         }
         Component comp = null;
