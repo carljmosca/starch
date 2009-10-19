@@ -138,6 +138,11 @@ public class DateConverter {
         return getDateAsString(value, "MM/dd/yyyy");
     }
 
+    public static String getDateAsString(Calendar value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return sdf.format(value.getTime());
+    }
+
     public static String getDateAsString(XMLGregorianCalendar value, String dateFormat) {
         if (isValueRepresentingNull(value)) {
             return "";
