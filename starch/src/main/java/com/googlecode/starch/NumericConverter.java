@@ -42,15 +42,18 @@ public class NumericConverter extends Converter {
         }
         return value;
     }
-    
+
     public Object convertReverse(Object value) {
-        float f = 0;
+        double d = 0;
         try {
-            f = (value == null) || (((String)value).length() == 0) ? 0 : Float.parseFloat(normalizeString((String)value));
+            d = (value == null) || (((String) value).length() == 0) ? 0 : Double.parseDouble(normalizeString((String) value));
         } catch (NumberFormatException ex) {
-            f = 0;
+            d = 0;
         }
-        return new Float(f);
+        if (useBigDecimal) {
+            return new BigDecimal(d);
+        }
+        return new Float(d);
     }
 
     boolean isBlankWhenZero() {
@@ -93,6 +96,14 @@ public class NumericConverter extends Converter {
         this.groupingUsed = groupingUsed;
     }
 
+    public boolean isUseBigDecimal() {
+        return useBigDecimal;
+    }
+
+    public void setUseBigDecimal(boolean useBigDecimal) {
+        this.useBigDecimal = useBigDecimal;
+    }
+
     private boolean isZero(Object value) {
         if ((value instanceof BigDecimal) && (((BigDecimal) value).floatValue() == 0)) {
             return true;
@@ -105,9 +116,9 @@ public class NumericConverter extends Converter {
         }
         return false;
     }
-    
+
     private String normalizeString(String value) {
-        
+
         if ((value.length() > 0) && value.substring(0, 1).equalsIgnoreCase("$")) {
             value = value.substring(1);
         }
@@ -118,5 +129,5 @@ public class NumericConverter extends Converter {
     private int minimumFractionDigits = 2;
     private boolean currencyFormat = false;
     private boolean percentFormat = false;
-
+    private boolean useBigDecimal = true;
 }
