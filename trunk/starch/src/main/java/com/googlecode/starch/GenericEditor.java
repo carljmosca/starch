@@ -26,6 +26,7 @@ import javax.swing.table.TableCellRenderer;
 public class GenericEditor implements TableCellEditor, TableCellRenderer {
 
     public GenericEditor() {
+        textField.setBorder(null);
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value,
