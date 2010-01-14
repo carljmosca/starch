@@ -163,11 +163,8 @@ public class DateConverter {
 
     public static int getTimeZoneOffset() {
         long ro = getTimeZone().getRawOffset() / 60000;
-        long ds = 0;
-        if (!DateTimeZone.getDefault().isFixed()) {
-            ds = DateTimeZone.getDefault().getOffset(Calendar.getInstance().getTimeInMillis()) / 60000;
-        }
-        return ((int)ro) + ((int)ds);
+        long ds = getTimeZone().getDSTSavings() / 60000;
+        return ((int)ro) + ((int)ds); 
     }
 
     private static int DATE_REPRESENTING_NULL_YEAR = 1899;
