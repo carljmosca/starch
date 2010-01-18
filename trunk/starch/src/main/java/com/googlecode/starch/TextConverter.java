@@ -81,6 +81,9 @@ public class TextConverter extends Converter {
     }
 
     public void setDateFormat(String dateFormat) {
+        if (dateFormat == null) {
+            return;
+        }
         String oldDateFormat = this.dateFormat;
         this.dateFormat = dateFormat;
         changeSupport.firePropertyChange("dateFormat", oldDateFormat, this.dateFormat);
