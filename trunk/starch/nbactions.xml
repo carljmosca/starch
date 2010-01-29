@@ -4,7 +4,7 @@
             <actionName>CUSTOM-deploy</actionName>
             <displayName>deploy</displayName>
             <goals>
-                <goal>deploy:deploy</goal>
+                <goal>deploy</goal>
             </goals>
         </action>
     </actions>
