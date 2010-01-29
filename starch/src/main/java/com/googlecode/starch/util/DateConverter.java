@@ -15,7 +15,6 @@ import java.util.TimeZone;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.joda.time.DateTimeZone;
 
 /**
  *
@@ -56,6 +55,7 @@ public class DateConverter {
             return dateValueRepresentingNull();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        sdf.setTimeZone(getTimeZone());
         try {
             Date dValue = sdf.parse(value.trim(), new ParsePosition(0));
             Integer year = new Integer(value.substring(0, 4));
@@ -141,6 +141,7 @@ public class DateConverter {
 
     public static String getDateAsString(Calendar value) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        sdf.setTimeZone(getTimeZone());
         return sdf.format(value.getTime());
     }
 
@@ -149,7 +150,7 @@ public class DateConverter {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-        value.setTimezone(getTimeZoneOffset());
+        sdf.setTimeZone(getTimeZone());
         return sdf.format(value.toGregorianCalendar().getTimeInMillis());
     }
 
