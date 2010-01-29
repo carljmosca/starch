@@ -93,8 +93,8 @@ public class DateConverter {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.ZONE_OFFSET, (calendar.getTimeZone().getRawOffset() +
-                calendar.getTimeZone().getDSTSavings()) / 60000);
+//        calendar.set(Calendar.ZONE_OFFSET, (calendar.getTimeZone().getRawOffset() +
+//                calendar.getTimeZone().getDSTSavings()) / 60000);
         return calendar;
     }
 
@@ -109,7 +109,7 @@ public class DateConverter {
             calendar.set(GregorianCalendar.MINUTE, 0);
             calendar.set(GregorianCalendar.SECOND, 0);
             calendar.set(GregorianCalendar.MILLISECOND, 0);
-            calendar.set(GregorianCalendar.ZONE_OFFSET, (calendar.getTimeZone().getRawOffset() + calendar.getTimeZone().getDSTSavings()) / 60000);
+            //calendar.set(GregorianCalendar.ZONE_OFFSET, (calendar.getTimeZone().getRawOffset() + calendar.getTimeZone().getDSTSavings()) / 60000);
             javax.xml.datatype.DatatypeFactory factory = javax.xml.datatype.DatatypeFactory.newInstance();
 
             xCalendar = factory.newXMLGregorianCalendar(calendar);
