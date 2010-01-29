@@ -28,6 +28,7 @@ import org.jdesktop.swingx.JXDatePicker;
 public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
 
     public XMLDataColumnEditor() {
+
     }
 
     public Component getTableCellEditorComponent(JTable table,
@@ -41,7 +42,9 @@ public class XMLDataColumnEditor implements TableCellEditor, TableCellRenderer {
         }
         this.table = table;
         table.setSurrendersFocusOnKeystroke(true);
-        datePicker.setFormats(new SimpleDateFormat(dateFormatString));
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormatString);
+        sdf.setTimeZone(DateConverter.getTimeZone());
+        datePicker.setFormats(sdf);
         return datePicker;
     }
 
