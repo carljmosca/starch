@@ -140,7 +140,11 @@ public class DateConverter {
     }
 
     public static String getDateAsString(Calendar value) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return getDateAsString(value, "MM/dd/yyyy");
+    }
+
+    public static String getDateAsString(Calendar value, String dateFormat) {
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         sdf.setTimeZone(getTimeZone());
         return sdf.format(value.getTime());
     }
