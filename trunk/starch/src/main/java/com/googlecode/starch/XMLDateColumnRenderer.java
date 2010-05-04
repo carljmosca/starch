@@ -32,10 +32,10 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         label.setFont(table.getFont());
         // Configure the component with the specified value
         if (value instanceof XMLGregorianCalendar) {
-            label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value));
+            label.setText(DateConverter.getDateAsString((XMLGregorianCalendar) value, dateFormat));
             label.invalidate();
         } else if (value instanceof Calendar) {
-            label.setText(DateConverter.getDateAsString((Calendar)value));
+            label.setText(DateConverter.getDateAsString((Calendar)value, dateFormat));
             label.invalidate();
         }
         Component comp = null;
@@ -64,6 +64,16 @@ public class XMLDateColumnRenderer implements TableCellRenderer {
         // Since the renderer is a component, return itself
         return panel;
     }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+    
     private JLabel label = new JLabel();
     private JPanel panel = new JPanel();
+    private String dateFormat = "MM/dd/yyyy";
 }
