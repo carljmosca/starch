@@ -4,11 +4,13 @@
  */
 package com.googlecode.starch;
 
+import com.googlecode.starch.util.DateConverter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.text.SimpleDateFormat;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.jdesktop.beansbinding.Converter;
+import org.jdesktop.swingx.calendar.DateUtils;
 
 /**
  *
@@ -28,6 +30,9 @@ public class TextConverter extends Converter {
         if (value instanceof String) {
             return getConvertedString((String) value);
         } else if (value instanceof XMLGregorianCalendar) {
+            if (DateConverter.isValueRepresentingNull((XMLGregorianCalendar)value)) {
+                return null;
+            }
             SimpleDateFormat sdf;
             try {
                 sdf = new SimpleDateFormat(getDateFormat());
