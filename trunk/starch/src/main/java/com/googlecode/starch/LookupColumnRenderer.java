@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.googlecode.starch;
 
 import java.awt.BorderLayout;
@@ -30,11 +29,13 @@ public class LookupColumnRenderer implements TableCellRenderer {
 
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
-        }        
+        }
         label.setFont(table.getFont());
         // Configure the component with the specified value
-        if (value instanceof Integer) {
-            label.setText(getDisplayValue((Integer)value));
+        if (value == null) {
+            label.setText(getDisplayValue(-1));
+        } else if (value instanceof Integer) {
+            label.setText(getDisplayValue((Integer) value));
         }
         panel.setLayout(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
@@ -54,7 +55,7 @@ public class LookupColumnRenderer implements TableCellRenderer {
                 label.setForeground(comp.getForeground());
             } else {
                 panel.setBackground(table.getBackground());
-                label.setForeground(table.getForeground());                
+                label.setForeground(table.getForeground());
             }
         }
         // Set tool tip if desired
@@ -63,7 +64,7 @@ public class LookupColumnRenderer implements TableCellRenderer {
         // Since the renderer is a component, return itself
         return panel;
     }
-    
+
     private String getDisplayValue(int lookupValue) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getLookupValue() == lookupValue) {
@@ -72,15 +73,13 @@ public class LookupColumnRenderer implements TableCellRenderer {
         }
         return "";
     }
-    
+
     public void addLookupItem(int lookupValue, String displayValue) {
         items.add(new LookupColumnItem());
         items.get(items.size() - 1).setLookupValue(lookupValue);
         items.get(items.size() - 1).setDisplayValue(displayValue);
     }
-    
     private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
     private List<LookupColumnItem> items = new ArrayList<LookupColumnItem>(0);
-
 }
