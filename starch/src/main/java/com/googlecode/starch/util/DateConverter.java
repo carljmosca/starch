@@ -122,17 +122,17 @@ public class DateConverter {
     public static boolean isValueRepresentingNull(XMLGregorianCalendar calendar) {
 
         return (calendar == null) ||
-                ((calendar.getYear() == DATE_REPRESENTING_NULL_YEAR) &&
+               (calendar.getYear() <= DATE_REPRESENTING_NULL_YEAR); // &&
                 //(calendar.getMonth() == DATE_REPRESENTING_NULL_MONTH) &&
-                (calendar.getDay() == DATE_REPRESENTING_NULL_DATE));
+                //(calendar.getDay() == DATE_REPRESENTING_NULL_DATE));
     }
 
     public static boolean isValueRepresentingNull(Calendar calendar) {
 
         return (calendar == null) ||
-                ((calendar.get(Calendar.YEAR) == DATE_REPRESENTING_NULL_YEAR) &&
+                (calendar.get(Calendar.YEAR) <= DATE_REPRESENTING_NULL_YEAR); //&&
                 //(calendar.getMonth() == DATE_REPRESENTING_NULL_MONTH) &&
-                (calendar.get(Calendar.DAY_OF_MONTH) == DATE_REPRESENTING_NULL_DATE));
+                //(calendar.get(Calendar.DAY_OF_MONTH) == DATE_REPRESENTING_NULL_DATE));
     }
 
     public static String getDateAsString(XMLGregorianCalendar value) {
