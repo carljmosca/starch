@@ -14,6 +14,15 @@
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
         </repository>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <distributionManagement>
         <repository>
@@ -64,8 +73,8 @@
     <dependencies>
         <dependency>
             <groupId>org.swinglabs</groupId>
-            <artifactId>swingx</artifactId>
-            <version>1.6</version>
+            <artifactId>swingx-core</artifactId>
+            <version>1.6.2-2</version>
         </dependency>
         <dependency>
             <groupId>org.jdesktop</groupId>

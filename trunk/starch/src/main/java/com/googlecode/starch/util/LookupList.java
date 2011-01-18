@@ -19,6 +19,11 @@ public class LookupList {
         addEmptyItem();
     }
 
+    public LookupList(String defaultText){
+        this.defaultItemText = defaultText;
+        addEmptyItem();
+    }
+
     public ObservableList<LookupItem> getList() {
         return list;
     }
@@ -41,8 +46,17 @@ public class LookupList {
     }
 
     private void addEmptyItem() {
-        list.add(new LookupItem(0, "0", ""));
+        list.add(new LookupItem(0, "0", defaultItemText));
+    }
+    
+    public String getDefaultItemText(){
+        return this.defaultItemText;
     }
 
+    public void setDefaultItemText(String defaultText){
+        this.defaultItemText = defaultText;
+    }
+
+    private String defaultItemText = "";
     private ObservableList<LookupItem> list = ObservableCollections.observableList(new ArrayList<LookupItem>(0));
 }
