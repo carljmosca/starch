@@ -5,7 +5,7 @@
     <groupId>com.googlecode</groupId>
     <artifactId>starch</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.6</version>
     <name>starch</name>
     <repositories>
         <repository>

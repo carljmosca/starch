@@ -40,11 +40,14 @@ public class LookupColumnRenderer implements TableCellRenderer {
         panel.setLayout(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
         Component comp = null;
-        if (value != null) {
-            TableCellRenderer rend = table.getDefaultRenderer(value.getClass());
-            if (rend != null) {
-                comp = table.prepareRenderer(rend, rowIndex, vColIndex);
-            }
+        TableCellRenderer rend = null;
+        if (value == null) {
+            rend = table.getDefaultRenderer(String.class);
+        } else {
+            rend = table.getDefaultRenderer(value.getClass());
+        }
+        if (rend != null) {
+            comp = table.prepareRenderer(rend, rowIndex, vColIndex);
         }
         if (isSelected) {
             panel.setBackground(table.getSelectionBackground());
