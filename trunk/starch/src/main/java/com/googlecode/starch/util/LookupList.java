@@ -5,6 +5,8 @@
 
 package com.googlecode.starch.util;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
@@ -56,7 +58,14 @@ public class LookupList {
     public void setDefaultItemText(String defaultText){
         this.defaultItemText = defaultText;
     }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
 
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
     private String defaultItemText = "";
     private ObservableList<LookupItem> list = ObservableCollections.observableList(new ArrayList<LookupItem>(0));
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 }
