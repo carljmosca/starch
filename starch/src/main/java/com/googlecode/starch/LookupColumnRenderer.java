@@ -82,6 +82,7 @@ public class LookupColumnRenderer implements TableCellRenderer {
         items.get(items.size() - 1).setLookupValue(lookupValue);
         items.get(items.size() - 1).setDisplayValue(displayValue);
     }
+    
     private JPanel panel = new JPanel();
     private JLabel label = new JLabel();
     private List<LookupColumnItem> items = new ArrayList<LookupColumnItem>(0);

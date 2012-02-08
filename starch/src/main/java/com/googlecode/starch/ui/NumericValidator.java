@@ -5,6 +5,7 @@
 package com.googlecode.starch.ui;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
@@ -70,9 +71,20 @@ public class NumericValidator extends AbstractValidator implements Serializable 
     public void setPositiveOnly(boolean positiveOnly) {
         this.positiveOnly = positiveOnly;
     }
+    
+    private boolean doNotAllowZero;
+
+    public boolean isDoNotAllowZero() {
+        return doNotAllowZero;
+    }
+
+    public void setDoNotAllowZero(boolean doNotAllowZero) {
+        this.doNotAllowZero = doNotAllowZero;
+    }
+
 
     private boolean validate(String number) {
-        try {
+        try {            
             if (allowDecimal) {
                 float v = Float.parseFloat(number);
                 if ((precision > 0) && (number.indexOf(".") >= 0)) {
@@ -89,6 +101,10 @@ public class NumericValidator extends AbstractValidator implements Serializable 
                     setMessage("Only negative numbers are allowed.");
                     return false;
                 }
+                if(doNotAllowZero && (v == 0.0)) {
+                    setMessage("Zero not allowed.");
+                    return false;
+                }
             } else {
                 int v = Integer.parseInt(number);
                 if (positiveOnly && (v < 0)) {
@@ -97,6 +113,10 @@ public class NumericValidator extends AbstractValidator implements Serializable 
                 }
                 if (negativeOnly && (v > 0)) {
                     setMessage("Only negative numbers are allowed.");
+                    return false;
+                }
+                 if(doNotAllowZero && (v == 0)) {
+                    setMessage("Zero not allowed.");
                     return false;
                 }
             }
