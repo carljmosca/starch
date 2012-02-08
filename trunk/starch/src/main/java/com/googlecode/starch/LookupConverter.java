@@ -25,10 +25,17 @@ public class LookupConverter extends Converter {
             }
             return null;
         }
+        
+        LookupItem item;
         if (useAlphaKey) {
-            return getItemUsingAlphaKey((String) value);
+            item = getItemUsingAlphaKey((String) value);
         } else {
-            return getItem((Integer) value);
+            item = getItem((Integer) value);
+        }
+        if(returnValueOnly) {
+            return item.getValue();
+        } else {
+            return item;
         }
     }
 
@@ -83,6 +90,16 @@ public class LookupConverter extends Converter {
     public void setUseAlphaKey(boolean useAlphaKey) {
         this.useAlphaKey = useAlphaKey;
     }
+    
+    public boolean getReturnValueOnly() {
+        return returnValueOnly;
+    }
+    
+    public void setReturnValueOnly(boolean returnValueOnly){
+        this.returnValueOnly = returnValueOnly;
+    }
+    
+    private boolean returnValueOnly;
     private boolean useAlphaKey = false;
     private LookupList list = new LookupList();
 }
