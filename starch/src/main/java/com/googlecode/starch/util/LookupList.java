@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.googlecode.starch.util;
 
 import java.beans.PropertyChangeListener;
@@ -10,6 +9,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
+
+import com.googlecode.starch.util.LookupItem;
 
 /**
  *
@@ -21,9 +22,11 @@ public class LookupList {
         addEmptyItem();
     }
 
-    public LookupList(String defaultText){
+    public LookupList(String defaultText) {
         this.defaultItemText = defaultText;
-        addEmptyItem();
+        if ((defaultText != null) && defaultText != "") {
+            addEmptyItem();
+        }
     }
 
     public ObservableList<LookupItem> getList() {
@@ -33,12 +36,13 @@ public class LookupList {
     public void setList(ObservableList<LookupItem> list) {
         this.list = list;
     }
-    
+
     public void addLookupItem(int key, String alphaKey, String value) {
         addLookupItem(key, alphaKey, value, "");
     }
 
-    public void addLookupItem(int key, String alphaKey, String value, String description) {
+    public void addLookupItem(int key, String alphaKey, String value,
+            String description) {
         list.add(new LookupItem(key, alphaKey, value, description));
     }
 
@@ -48,16 +52,22 @@ public class LookupList {
     }
 
     private void addEmptyItem() {
-        list.add(new LookupItem(0, "0", defaultItemText));
+        list.add(new LookupItem(-1, (("".equals(defaultAlphaKeyItemValue) || 
+                defaultAlphaKeyItemValue == null) ? "-1" : defaultAlphaKeyItemValue), defaultItemText));
     }
     
-    public String getDefaultItemText(){
+    public void setDefaultAlphaKeyItemValue(String value) {
+        this.defaultAlphaKeyItemValue = value;
+    }
+
+    public String getDefaultItemText() {
         return this.defaultItemText;
     }
 
-    public void setDefaultItemText(String defaultText){
+    public void setDefaultItemText(String defaultText) {
         this.defaultItemText = defaultText;
     }
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
@@ -65,7 +75,11 @@ public class LookupList {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
+    
+    private String defaultAlphaKeyItemValue = "";
     private String defaultItemText = "";
-    private ObservableList<LookupItem> list = ObservableCollections.observableList(new ArrayList<LookupItem>(0));
-    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    private ObservableList<LookupItem> list = ObservableCollections
+            .observableList(new ArrayList<LookupItem>(0));
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+            this);
 }
