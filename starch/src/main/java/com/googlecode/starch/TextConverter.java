@@ -8,9 +8,9 @@ import com.googlecode.starch.util.DateConverter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.jdesktop.beansbinding.Converter;
-import org.jdesktop.swingx.calendar.DateUtils;
 
 /**
  *
@@ -30,18 +30,24 @@ public class TextConverter extends Converter {
         if (value instanceof String) {
             return getConvertedString((String) value);
         } else if (value instanceof XMLGregorianCalendar) {
-            if (DateConverter.isValueRepresentingNull((XMLGregorianCalendar)value)) {
+            if (DateConverter.isValueRepresentingNull((XMLGregorianCalendar) value)) {
                 return null;
             }
-            SimpleDateFormat sdf;
-            try {
-                sdf = new SimpleDateFormat(getDateFormat());
-            } catch (IllegalArgumentException iao) {
-                sdf = new SimpleDateFormat("MM/dd/yyyy");
-            }
-            return sdf.format(((XMLGregorianCalendar) value).toGregorianCalendar().getTime());
+            return getSDF().format(((XMLGregorianCalendar) value).toGregorianCalendar().getTime());
+        } else if (value instanceof Date) {
+            return getSDF().format((Date) value);
         }
         return value;
+    }
+
+    private SimpleDateFormat getSDF() {
+        SimpleDateFormat sdf;
+        try {
+            sdf = new SimpleDateFormat(getDateFormat());
+        } catch (IllegalArgumentException iao) {
+            sdf = new SimpleDateFormat("MM/dd/yyyy");
+        }
+        return sdf;
     }
 
     public Object convertReverse(Object value) {
@@ -101,7 +107,6 @@ public class TextConverter extends Converter {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private boolean toUpper = false;
     private boolean toLower = false;
