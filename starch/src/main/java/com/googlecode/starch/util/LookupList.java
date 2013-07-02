@@ -19,6 +19,11 @@ import com.googlecode.starch.util.LookupItem;
 public class LookupList {
 
     public LookupList() {
+        this(true);
+    }
+    
+    public LookupList(boolean includeEmptyItem) {
+        this.includeEmptyItem = includeEmptyItem;
         addEmptyItem();
     }
 
@@ -52,10 +57,12 @@ public class LookupList {
     }
 
     private void addEmptyItem() {
-        list.add(new LookupItem(-1, (("".equals(defaultAlphaKeyItemValue) || 
-                defaultAlphaKeyItemValue == null) ? "-1" : defaultAlphaKeyItemValue), defaultItemText));
+        if (includeEmptyItem) {
+            list.add(new LookupItem(-1, (("".equals(defaultAlphaKeyItemValue)
+                    || defaultAlphaKeyItemValue == null) ? "-1" : defaultAlphaKeyItemValue), defaultItemText));
+        }
     }
-    
+
     public void setDefaultAlphaKeyItemValue(String value) {
         this.defaultAlphaKeyItemValue = value;
     }
@@ -75,7 +82,15 @@ public class LookupList {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-    
+
+    public boolean isIncludeEmptyItem() {
+        return includeEmptyItem;
+    }
+
+    public void setIncludeEmptyItem(boolean includeEmptyItem) {
+        this.includeEmptyItem = includeEmptyItem;
+    }
+    private boolean includeEmptyItem = true;
     private String defaultAlphaKeyItemValue = "";
     private String defaultItemText = "";
     private ObservableList<LookupItem> list = ObservableCollections
